@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import { Request } from "express";
 
 
 interface ReturnedData {
@@ -147,8 +148,8 @@ export default {
             const countriesSelect = await client.query(countriesQuery);
 
 
-            console.log ({user: userSelect.rows[0]});
-            console.log ({countries: countriesSelect.rows});
+            // console.log ({user: userSelect.rows[0]});
+            // console.log ({countries: countriesSelect.rows});
 
             await client.query("COMMIT");
 
@@ -197,10 +198,12 @@ export default {
 
             const numberOfCountriesRes = await client.query(numberOfCountriesQuery);
 
-            console.log(paginatedCountriesRes.rows);
-            console.log(numberOfCountriesRes.rows[0].count);
+            // console.log(paginatedCountriesRes.rows);
+            // console.log(numberOfCountriesRes.rows[0].count);
 
             const hasNextPage = paginatedCountriesRes.rows.length > limit;
+
+            // console.log("hasNextPage:", hasNextPage)
 
             const slicedCountries = paginatedCountriesRes.rows.slice(0, limit);
 
@@ -228,10 +231,12 @@ export default {
             client.release();
         }
     },
-    getPaginatedUsers: async(parent: any, args: { cursor: number }, context: { pgPool: Pool }) => {
+    getPaginatedUsers: async(parent: any, args: { cursor: number }, context: { pgPool: Pool, req: Request }) => {
 
         const limit = 3;
         const client = await context.pgPool.connect();
+
+        console.log("token user:", context.req.user);
 
         try {
 
@@ -272,9 +277,12 @@ export default {
 
             const numberOfUsersRes = await client.query(numberOfUsersQuery);
 
-            console.log(paginatedUsersRes.rows);
+            // console.log(paginatedUsersRes.rows);
 
             const hasNextPage = paginatedUsersRes.rows.length > limit;
+
+            // console.log("hasNextPage:", hasNextPage)
+
 
             const slicedUsers = paginatedUsersRes.rows.slice(0, limit);
 

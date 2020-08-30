@@ -5,7 +5,18 @@ import pgPool from "./pg/pg-connection";
 
 const router = Router();
 
-const rootRoute =  router.get("/", async(req, res) => {
+// export default (pooler: any) => {
+//     return [
+//         router.post("/", async(req, res) => {
+//             pooler();
+//         }),
+//         router.get("/", async(req, res) => {
+//             pooler();
+//         }),
+//     ];
+// }
+
+const rootRoute = router.get("/", async(req, res) => {
     try {
         const usersLogin = await pgPool.query(`
             select * from users_login
@@ -278,7 +289,7 @@ const deleteUser = router.delete("/deleteuser/:id", async(req, res) => {
 });
 
 
-export default [
+/* export default [
     rootRoute,
     getUser,
     getUsers,
@@ -286,4 +297,6 @@ export default [
     login,
     editUser,
     deleteUser,
-]
+]; */
+
+export default router;

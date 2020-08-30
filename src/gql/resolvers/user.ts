@@ -2,8 +2,8 @@ import { Pool } from "pg";
 
 export default {
     country: async(parent: { user_id: number }, args: any, context: { pgPool: Pool }) => {
-        console.log(typeof parent.user_id);
-        console.log(parent.user_id);
+        // console.log(typeof parent.user_id);
+        // console.log(parent.user_id);
         try {
             const getUserCountryQuery = `
                 SELECT 
